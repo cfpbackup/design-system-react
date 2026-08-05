@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ReactNode } from 'react';
 import { Alert } from './alert';
-import {
-  AlertFieldLevel,
-  type AlertFieldLevelType,
-} from './alert-field-level';
+import { AlertFieldLevel, type AlertFieldLevelType } from './alert-field-level';
 import { TextInput } from '../text-input/text-input';
 import type { TextInputStatusType } from '../text-input/text-input-status';
 
@@ -116,12 +113,15 @@ export const InProgress: Story = {
   },
 };
 
+const textInputStatuses = ['error', 'warning', 'success'] as const;
+
+const isTextInputStatus = (status: string): status is TextInputStatusType =>
+  (textInputStatuses as readonly string[]).includes(status);
+
 const textInputStatus = (
   status?: AlertFieldLevelType,
 ): TextInputStatusType | undefined =>
-  status !== undefined && ['error', 'warning', 'success'].includes(status)
-    ? status
-    : undefined;
+  status !== undefined && isTextInputStatus(status) ? status : undefined;
 
 export const SuccessFieldLevel: FieldLevelStory = {
   render: (_arguments) => (
